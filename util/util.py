@@ -4,8 +4,8 @@ from configparser import ConfigParser
 
 import psycopg2
 
-from scr.hh import HeadHunterAPI
-from scr.DBManager import DBManager
+from src.hh import HeadHunterAPI
+from src.DBManager import DBManager
 
 
 def welcome():
@@ -105,8 +105,8 @@ def interact_with_user():
                                     db_manager.insert_vacancy(vacancy_id, employer_id, vacancy, vacancy_salary,
                                                               vacancy_link)
                         except psycopg2.errors.UniqueViolation:
-                            print(
-                                "Данные уже занесены, повторно не требуется, или удалите и заново создайте таблицу и БД")
+                            print("Данные уже занесены, повторно не требуется, или удалите и заново создайте таблицу "
+                                  "и БД")
                         else:
                             print("Таблицы успешно заполнены")
 
@@ -120,7 +120,7 @@ def interact_with_user():
                 else:
                     all_vacancies = db_manager.get_all_vacancies()
                     # Отрабатываем случай если в таблице нет данных
-                    if all_vacancies == []:
+                    if not all_vacancies:
                         print("Нет таблиц, создайте - пункт 2")
                     else:
                         for company, title, salary, link in all_vacancies:
@@ -140,7 +140,7 @@ def interact_with_user():
                 else:
                     avg_salary = db_manager.get_avg_salary()
                     # Отрабатываем случай если в таблице нет данных
-                    if avg_salary == None:
+                    if avg_salary is None:
                         print("Не загружены данные в таблицы")
                     else:
                         print("Средняя зарплата(без учета нулевых значений по вакансиям:", avg_salary)
@@ -155,7 +155,7 @@ def interact_with_user():
                 else:
                     vacancies_with_higher_salary = db_manager.get_vacancies_with_higher_salary()
                     # Отрабатываем случай если в таблице нет данных
-                    if vacancies_with_higher_salary == []:
+                    if not vacancies_with_higher_salary:
                         print("Нет таблиц, создайте - пункт 2")
                     else:
                         for company, title, salary, link in vacancies_with_higher_salary:
@@ -176,7 +176,7 @@ def interact_with_user():
                     keyword = input("Введите ключевое слово")
                     vacancies_with_keyword = db_manager.get_vacancies_with_keyword(keyword)
                     # Отрабатываем случай если в таблице нет данных
-                    if vacancies_with_keyword == []:
+                    if not vacancies_with_keyword:
                         print("Нет таблиц, создайте - пункт 2 или нет соответсвий")
                     else:
                         for company, title, salary, link in vacancies_with_keyword:
@@ -196,7 +196,7 @@ def interact_with_user():
                 else:
                     companies_and_vacancies_count = db_manager.get_companies_and_vacancies_count()
                     # Отрабатываем случай если в таблице нет данных
-                    if companies_and_vacancies_count == []:
+                    if not companies_and_vacancies_count:
                         print("Нет таблиц, создайте - пункт 2")
                     else:
                         print("Компания и количество вакансий:")

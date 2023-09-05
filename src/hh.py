@@ -2,7 +2,7 @@ import json
 
 import requests
 
-from scr.abc import Employer
+from src.abc import Employer
 
 
 class HeadHunterAPI(Employer):
